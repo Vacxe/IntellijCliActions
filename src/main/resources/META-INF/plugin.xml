@@ -1,0 +1,15 @@
+<!-- Plugin Configuration File. Read more: https://plugins.jetbrains.com/docs/intellij/plugin-configuration-file.html -->
+<idea-plugin>
+    <id>io.github.vacxe.icmd</id>
+    <name>ICMD</name>
+    <vendor email="aksenov.kostya@gmail.com" url="https://www.github.com/vacxe">Vacxe</vendor>
+    <description><![CDATA[Quick command line shortcuts for any project]]></description>
+    <depends>com.intellij.modules.platform</depends>
+    <depends>org.jetbrains.plugins.terminal</depends>
+    <extensions defaultExtensionNs="com.intellij">
+        <toolWindow
+                id="Command line shortcuts"
+                anchor="right"
+                factoryClass="io.github.vacxe.icmd.ICmdToolWindowFactory"/>
+    </extensions>
+</idea-plugin>
