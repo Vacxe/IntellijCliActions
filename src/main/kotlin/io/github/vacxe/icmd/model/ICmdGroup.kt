@@ -3,8 +3,7 @@ package io.github.vacxe.icmd.model
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class ICmdShortcut(
+data class ICmdGroup(
     val name: String,
-    val command: String,
-    val description: String? = null
+    val commands: List<ICmdCommand>
 )
