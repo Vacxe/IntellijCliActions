@@ -22,6 +22,7 @@ class ICmdTablePanel(project: Project) : JPanel() {
 
     private fun build() {
         layout = BoxLayout(this, BoxLayout.Y_AXIS)
+
         // TODO : Add reload config button
 
         val configFiles = File(project.basePath ?: throw Exception("Project basePath cannot be found"))
@@ -34,8 +35,8 @@ class ICmdTablePanel(project: Project) : JPanel() {
                 .forEach { groups ->
                     groups.forEach { group ->
                         val commandsLayout = JPanel()
+                        commandsLayout.border = BorderFactory.createEmptyBorder(5,5,5,5)
                         commandsLayout.layout = BoxLayout(commandsLayout, BoxLayout.Y_AXIS);
-
                         group.commands.forEach { command ->
                             commandsLayout.add(addCmdShortcutItem(command))
                         }
