@@ -1,0 +1,7 @@
+groups:
+  - name: Git
+    commands:
+      - name: Rebase on Main
+        command: git checkout main && git pull && git checkout - && git rebase main
+      - name: Amend Changes
+        command: git add . && git commit --amend --no-edit && git push -f
