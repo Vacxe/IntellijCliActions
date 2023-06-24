@@ -1,6 +1,7 @@
 package io.github.vacxe.icmd.ui
 
 import com.charleskorn.kaml.Yaml
+import com.intellij.icons.AllIcons
 import com.intellij.openapi.project.Project
 import com.intellij.ui.components.JBTabbedPane
 import io.github.vacxe.icmd.model.ICmdCommand
@@ -51,7 +52,7 @@ class ICmdTablePanel(project: Project) : JPanel() {
         val panel = JPanel()
         panel.alignmentX = Component.LEFT_ALIGNMENT
 
-        val button = JButton("Run", ImageIcon("images/start.gif"))
+        val button = JButton("Run", AllIcons.Actions.Execute)
         button.addActionListener {
             if(iCmdCommand.prompt) {
                 if(JOptionPane.showConfirmDialog(null,
