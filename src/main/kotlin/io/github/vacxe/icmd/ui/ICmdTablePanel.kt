@@ -12,7 +12,6 @@ import java.io.File
 import java.io.IOException
 import javax.swing.*
 
-
 class ICmdTablePanel(project: Project) : JPanel() {
     private val project: Project
 
@@ -22,8 +21,6 @@ class ICmdTablePanel(project: Project) : JPanel() {
 
     private fun build() {
         layout = BoxLayout(this, BoxLayout.Y_AXIS)
-
-        // TODO : Add reload config button
 
         val configFiles = File(project.basePath ?: throw Exception("Project basePath cannot be found"))
             .walk()
@@ -49,6 +46,7 @@ class ICmdTablePanel(project: Project) : JPanel() {
             //TODO : Add hint with configuration requirements
         }
     }
+
     private fun addCmdShortcutItem(iCmdCommand: ICmdCommand): JComponent {
         val panel = JPanel()
         panel.alignmentX = Component.LEFT_ALIGNMENT
@@ -56,7 +54,11 @@ class ICmdTablePanel(project: Project) : JPanel() {
         val button = JButton("Run", ImageIcon("images/start.gif"))
         button.addActionListener {
             if(iCmdCommand.prompt) {
-                //TODO : Add prompt
+                if(JOptionPane.showConfirmDialog(null,
+                    "Run: ${iCmdCommand.name} ?", "Confirm Action", JOptionPane.YES_NO_OPTION) == 0)
+                {
+                    runCommand(iCmdCommand.name, iCmdCommand.command)
+                }
             } else {
                 runCommand(iCmdCommand.name, iCmdCommand.command)
             }
