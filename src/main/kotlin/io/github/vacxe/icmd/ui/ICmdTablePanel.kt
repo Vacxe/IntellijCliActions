@@ -51,7 +51,6 @@ class ICmdTablePanel(project: Project) : JPanel() {
     private fun addCmdShortcutItem(iCmdCommand: ICmdCommand): JComponent {
         val panel = JPanel()
         panel.alignmentX = Component.LEFT_ALIGNMENT
-
         val button = JButton("Run", AllIcons.Actions.Execute)
         button.addActionListener {
             if(iCmdCommand.prompt) {
@@ -65,10 +64,8 @@ class ICmdTablePanel(project: Project) : JPanel() {
             }
         }
         panel.add(button)
-
         val stripLabel = JLabel(iCmdCommand.name)
         panel.add(stripLabel, BorderLayout.WEST)
-
         panel.maximumSize = panel.preferredSize;
         return panel
     }

@@ -10,6 +10,7 @@
         <toolWindow
                 id="Command line shortcuts"
                 anchor="right"
-                factoryClass="io.github.vacxe.icmd.ICmdToolWindowFactory"/>
+                factoryClass="io.github.vacxe.icmd.ICmdToolWindowFactory"
+                icon="AllIcons.Debugger.Console"/>
     </extensions>
 </idea-plugin>
