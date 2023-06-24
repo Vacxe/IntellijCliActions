@@ -16,12 +16,11 @@ repositories {
 // Read more: https://plugins.jetbrains.com/docs/intellij/tools-gradle-intellij-plugin.html
 intellij {
     version.set("2022.1.4")
-    type.set("IC") // Target IDE Platform
+    type.set("IC")
     plugins.set(listOf("org.jetbrains.plugins.terminal"))
 }
 
 tasks {
-    // Set the JVM compatibility versions
     withType<JavaCompile> {
         sourceCompatibility = "11"
         targetCompatibility = "11"

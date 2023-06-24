@@ -3,7 +3,8 @@
     <id>io.github.vacxe.icmd</id>
     <name>ICMD</name>
     <vendor email="aksenov.kostya@gmail.com" url="https://www.github.com/vacxe">Vacxe</vendor>
-    <description><![CDATA[Quick command line shortcuts for any project]]></description>
+    <description><![CDATA[Easily customisable command line shortcuts.
+     Just configure your favourites CLI calls in <name>.icmd.yaml files, and then you can call it from IDE just with single click.]]></description>
     <depends>com.intellij.modules.platform</depends>
     <depends>org.jetbrains.plugins.terminal</depends>
     <extensions defaultExtensionNs="com.intellij">
