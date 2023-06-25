@@ -6,17 +6,15 @@ plugins {
 }
 
 group = "io.github.vacxe"
-version = "1.0-SNAPSHOT"
+version = "1.0"
 
 repositories {
     mavenCentral()
 }
 
-// Configure Gradle IntelliJ Plugin
-// Read more: https://plugins.jetbrains.com/docs/intellij/tools-gradle-intellij-plugin.html
 intellij {
     version.set("2022.1.4")
-    type.set("IC")
+    pluginName.set("CLI Actions")
     plugins.set(listOf("org.jetbrains.plugins.terminal"))
 }
 
@@ -27,11 +25,6 @@ tasks {
     }
     withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile> {
         kotlinOptions.jvmTarget = "11"
-    }
-
-    patchPluginXml {
-        sinceBuild.set("221")
-        untilBuild.set("231.*")
     }
 
     signPlugin {

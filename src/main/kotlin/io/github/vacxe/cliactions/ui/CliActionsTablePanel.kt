@@ -1,11 +1,11 @@
-package io.github.vacxe.icmd.ui
+package io.github.vacxe.cliactions.ui
 
 import com.charleskorn.kaml.Yaml
 import com.intellij.icons.AllIcons
 import com.intellij.openapi.project.Project
 import com.intellij.ui.components.JBTabbedPane
-import io.github.vacxe.icmd.model.ICmdCommand
-import io.github.vacxe.icmd.model.ICmdConfig
+import io.github.vacxe.cliactions.model.Command
+import io.github.vacxe.cliactions.model.Config
 import org.jetbrains.plugins.terminal.TerminalView
 import java.awt.BorderLayout
 import java.awt.Component
@@ -14,7 +14,7 @@ import java.io.File
 import java.io.IOException
 import javax.swing.*
 
-class ICmdTablePanel(project: Project) : JPanel() {
+class CliActionsTablePanel(project: Project) : JPanel() {
     private val project: Project
 
     init {
@@ -29,7 +29,7 @@ class ICmdTablePanel(project: Project) : JPanel() {
 
         if (configFiles.toList().isNotEmpty()) {
             val jbTabbedPane = JBTabbedPane()
-            configFiles.map { file -> Yaml.default.decodeFromString(ICmdConfig.serializer(), file.readText()).groups }
+            configFiles.map { file -> Yaml.default.decodeFromString(Config.serializer(), file.readText()).groups }
                 .forEach { groups ->
                     groups.forEach { group ->
                         val commandsLayout = JPanel()
@@ -51,7 +51,7 @@ class ICmdTablePanel(project: Project) : JPanel() {
         }
     }
 
-    private fun addCmdShortcutItem(iCmdCommand: ICmdCommand): JComponent {
+    private fun addCmdShortcutItem(iCmdCommand: Command): JComponent {
         val panel = JPanel()
         panel.alignmentX = Component.LEFT_ALIGNMENT
         val button = JButton("Run", AllIcons.Actions.Execute)

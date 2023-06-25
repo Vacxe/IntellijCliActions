@@ -1,17 +1,18 @@
-<!-- Plugin Configuration File. Read more: https://plugins.jetbrains.com/docs/intellij/plugin-configuration-file.html -->
 <idea-plugin>
-    <id>io.github.vacxe.icmd</id>
-    <name>ICMD</name>
+    <id>io.github.vacxe.cliactions</id>
+    <name>CLI Actions</name>
     <vendor email="aksenov.kostya@gmail.com" url="https://www.github.com/vacxe">Vacxe</vendor>
-    <description><![CDATA[Easily customisable command line shortcuts.
-     Just configure your favourites CLI calls in <name>.icmd.yaml files, and then you can call it from IDE just with single click.]]></description>
+    <description><![CDATA[
+    Easily customisable command line shortcuts.
+    Just configure your favourites CLI calls in <name>.cliactions.yaml files, and then you can invoke it from IDE just with single click.
+    ]]></description>
     <depends>com.intellij.modules.platform</depends>
     <depends>org.jetbrains.plugins.terminal</depends>
     <extensions defaultExtensionNs="com.intellij">
         <toolWindow
-                id="Command line shortcuts"
+                id="CLI Actions"
                 anchor="right"
-                factoryClass="io.github.vacxe.icmd.ICmdToolWindowFactory"
+                factoryClass="io.github.vacxe.cliactions.CliActionsToolWindowFactory"
                 icon="AllIcons.Debugger.Console"/>
     </extensions>
 </idea-plugin>

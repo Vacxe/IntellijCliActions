@@ -1,1 +1,1 @@
-rootProject.name = "icmd-intellij-plugin"
+rootProject.name = "cli-actions-intellij-plugin"
