@@ -25,7 +25,7 @@ class CliActionsTablePanel(project: Project) : JPanel() {
         layout = BoxLayout(this, BoxLayout.Y_AXIS)
         val configFiles = File(project.basePath ?: throw Exception("Project basePath cannot be found"))
             .walk()
-            .filter { it.name.endsWith(".icmd.yaml") }
+            .filter { it.name.endsWith(".cliactions.yaml") }
 
         if (configFiles.toList().isNotEmpty()) {
             val jbTabbedPane = JBTabbedPane()
@@ -77,7 +77,7 @@ class CliActionsTablePanel(project: Project) : JPanel() {
         val panel = JPanel()
         panel.alignmentX = Component.CENTER_ALIGNMENT
         panel.alignmentY = Component.CENTER_ALIGNMENT
-        val stripLabel = JLabel("Can't find any config files. Please define `<name>.icmd.yaml` in the project root directory")
+        val stripLabel = JLabel("Can't find any config files. Please define `<name>.cliactions.yaml` in the project root directory")
         panel.add(stripLabel)
         return panel
     }

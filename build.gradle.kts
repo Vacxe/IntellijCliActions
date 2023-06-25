@@ -1,3 +1,5 @@
+import org.jetbrains.kotlin.ir.backend.js.compile
+
 plugins {
     id("java")
     id("org.jetbrains.kotlin.jvm") version "1.7.20"
@@ -6,30 +8,30 @@ plugins {
 }
 
 group = "io.github.vacxe"
-version = "1.0.2"
+version = "1.0.3"
 
 repositories {
     mavenCentral()
 }
 
 intellij {
-    version.set("2020.2.3")
+    version.set("2022.2.1")
     pluginName.set("CLI Actions")
     plugins.set(listOf("org.jetbrains.plugins.terminal"))
 }
 
 tasks {
     withType<JavaCompile> {
-        sourceCompatibility = "11"
-        targetCompatibility = "11"
+        sourceCompatibility = "17"
+        targetCompatibility = "17"
     }
     withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile> {
-        kotlinOptions.jvmTarget = "11"
+        kotlinOptions.jvmTarget = "17"
     }
 
     patchPluginXml {
-        sinceBuild.set("223")
-        untilBuild.set("233.*")
+        sinceBuild.set("222")
+        untilBuild.set("")
     }
 
     signPlugin {
