@@ -9,6 +9,7 @@ import io.github.vacxe.icmd.model.ICmdConfig
 import org.jetbrains.plugins.terminal.TerminalView
 import java.awt.BorderLayout
 import java.awt.Component
+import java.awt.Dimension
 import java.io.File
 import java.io.IOException
 import javax.swing.*
@@ -22,7 +23,6 @@ class ICmdTablePanel(project: Project) : JPanel() {
 
     private fun build() {
         layout = BoxLayout(this, BoxLayout.Y_AXIS)
-
         val configFiles = File(project.basePath ?: throw Exception("Project basePath cannot be found"))
             .walk()
             .filter { it.name.endsWith(".icmd.yaml") }
@@ -37,6 +37,9 @@ class ICmdTablePanel(project: Project) : JPanel() {
                         commandsLayout.layout = BoxLayout(commandsLayout, BoxLayout.Y_AXIS);
                         group.commands.forEach { command ->
                             commandsLayout.add(addCmdShortcutItem(command))
+                            commandsLayout.add(JSeparator().apply {
+                                maximumSize = Dimension(this.maximumSize.width,5)
+                            })
                         }
                         jbTabbedPane.add(group.name, commandsLayout)
                     }
@@ -44,7 +47,7 @@ class ICmdTablePanel(project: Project) : JPanel() {
 
             add(jbTabbedPane)
         } else {
-            //TODO : Add hint with configuration requirements
+            add(addNoConfigFilesMessage())
         }
     }
 
@@ -70,6 +73,14 @@ class ICmdTablePanel(project: Project) : JPanel() {
         return panel
     }
 
+    private fun addNoConfigFilesMessage(): JComponent {
+        val panel = JPanel()
+        panel.alignmentX = Component.CENTER_ALIGNMENT
+        panel.alignmentY = Component.CENTER_ALIGNMENT
+        val stripLabel = JLabel("Can't find any config files. Please define `<name>.icmd.yaml` in the project root directory")
+        panel.add(stripLabel)
+        return panel
+    }
     fun dispose() {}
     fun initialise() {
         build()
@@ -77,7 +88,6 @@ class ICmdTablePanel(project: Project) : JPanel() {
 
     private fun runCommand(name: String, command: String) {
         val terminalView: TerminalView = TerminalView.getInstance(project)
-        val command = command
         try {
             terminalView.createLocalShellWidget(project.basePath, name).executeCommand(command)
         } catch (err: IOException) {
