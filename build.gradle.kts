@@ -13,7 +13,7 @@ repositories {
 }
 
 intellij {
-    version.set("2022.1.4")
+    version.set("2020.2.3")
     pluginName.set("CLI Actions")
     plugins.set(listOf("org.jetbrains.plugins.terminal"))
 }
