@@ -6,7 +6,7 @@ plugins {
 }
 
 group = "io.github.vacxe"
-version = "1.0.1"
+version = "1.0.2"
 
 repositories {
     mavenCentral()
@@ -25,6 +25,11 @@ tasks {
     }
     withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile> {
         kotlinOptions.jvmTarget = "11"
+    }
+
+    patchPluginXml {
+        sinceBuild.set("223")
+        untilBuild.set("233.*")
     }
 
     signPlugin {
