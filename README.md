@@ -28,7 +28,7 @@ groups:
 
 ##### Plugin output:
 
-![sample.png](docs%2Fimages%2Fsample.png)
+![sample.png](docs%2Fimages%2Fimg.png)
 
 ## License
 Released under [Apache License v2.0](LICENSE)
