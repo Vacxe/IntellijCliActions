@@ -8,7 +8,7 @@ plugins {
 }
 
 group = "io.github.vacxe"
-version = "1.0.4"
+version = "1.0.0"
 
 repositories {
     mavenCentral()
@@ -31,7 +31,7 @@ tasks {
 
     patchPluginXml {
         sinceBuild.set("222")
-        untilBuild.set("240")
+        untilBuild.set("")
     }
 
     signPlugin {
