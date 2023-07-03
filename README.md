@@ -3,7 +3,7 @@
 #### How to use:
 * Add `*.cliactions.yaml` files to your project root or/and user home directory
 * You may create multiple configs. Configs from user home will be shared across all project/IDEs
-* You may force developer to install this plugin when project will be opened
+* You may force developerы to install this plugin when project will be opened
 
 * `.idea/externalDependencies.xml`
 ```xml
