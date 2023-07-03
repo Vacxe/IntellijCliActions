@@ -2,52 +2,49 @@ package io.github.vacxe.cliactions.ui
 
 import com.charleskorn.kaml.Yaml
 import com.intellij.icons.AllIcons
-import com.intellij.openapi.project.Project
 import com.intellij.ui.components.JBTabbedPane
+import io.github.vacxe.cliactions.configurations.ConfigurationProvider
 import io.github.vacxe.cliactions.model.Command
 import io.github.vacxe.cliactions.model.Config
-import org.jetbrains.plugins.terminal.TerminalView
 import java.awt.BorderLayout
 import java.awt.Component
 import java.awt.Dimension
-import java.io.File
-import java.io.IOException
 import javax.swing.*
 
-class CliActionsTablePanel(project: Project) : JPanel() {
-    private val project: Project
-
-    init {
-        this.project = project
-    }
+class CliActionsTablePanel(
+    private val configurationFinder: ConfigurationProvider,
+    private val runTerminalCommand: (String, String) -> Unit
+) : JPanel() {
+    private val loadingMessage = loadingMessage()
+    private val noConfigFilesMessage = noConfigFilesMessage()
 
     private fun build() {
         layout = BoxLayout(this, BoxLayout.Y_AXIS)
-        val configFiles = File(project.basePath ?: throw Exception("Project basePath cannot be found"))
-            .walk()
-            .filter { it.name.endsWith(".cliactions.yaml") }
-
-        if (configFiles.toList().isNotEmpty()) {
-            val jbTabbedPane = JBTabbedPane()
-            configFiles.map { file -> Yaml.default.decodeFromString(Config.serializer(), file.readText()).groups }
-                .forEach { groups ->
-                    groups.forEach { group ->
-                        val commandsLayout = JPanel()
-                        commandsLayout.border = BorderFactory.createEmptyBorder(5,5,5,5)
-                        commandsLayout.layout = BoxLayout(commandsLayout, BoxLayout.Y_AXIS);
-                        group.commands.forEach { command ->
-                            commandsLayout.add(addCmdShortcutItem(command))
-                            commandsLayout.add(JSeparator().apply {
-                                maximumSize = Dimension(this.maximumSize.width,5)
-                            })
+        add(loadingMessage)
+        configurationFinder.find { configFiles ->
+            remove(loadingMessage)
+            if (configFiles.toList().isNotEmpty()) {
+                val jbTabbedPane = JBTabbedPane()
+                configFiles.map { file -> Yaml.default.decodeFromString(Config.serializer(), file.readText()).groups }
+                    .forEach { groups ->
+                        groups.forEach { group ->
+                            val commandsLayout = JPanel()
+                            commandsLayout.border = BorderFactory.createEmptyBorder(5,5,5,5)
+                            commandsLayout.layout = BoxLayout(commandsLayout, BoxLayout.Y_AXIS);
+                            group.commands.forEach { command ->
+                                commandsLayout.add(addCmdShortcutItem(command))
+                                commandsLayout.add(JSeparator().apply {
+                                    maximumSize = Dimension(this.maximumSize.width,5)
+                                })
+                            }
+                            jbTabbedPane.add(group.name, commandsLayout)
                         }
-                        jbTabbedPane.add(group.name, commandsLayout)
                     }
-                }
 
-            add(jbTabbedPane)
-        } else {
-            add(addNoConfigFilesMessage())
+                add(jbTabbedPane)
+            } else {
+                add(noConfigFilesMessage)
+            }
         }
     }
 
@@ -60,10 +57,10 @@ class CliActionsTablePanel(project: Project) : JPanel() {
                 if(JOptionPane.showConfirmDialog(null,
                     "Run: ${iCmdCommand.name} ?", "Confirm Action", JOptionPane.YES_NO_OPTION) == 0)
                 {
-                    runCommand(iCmdCommand.name, iCmdCommand.command)
+                    runTerminalCommand.invoke(iCmdCommand.name, iCmdCommand.command)
                 }
             } else {
-                runCommand(iCmdCommand.name, iCmdCommand.command)
+                runTerminalCommand.invoke(iCmdCommand.name, iCmdCommand.command)
             }
         }
         panel.add(button)
@@ -73,7 +70,7 @@ class CliActionsTablePanel(project: Project) : JPanel() {
         return panel
     }
 
-    private fun addNoConfigFilesMessage(): JComponent {
+    private fun noConfigFilesMessage(): JComponent {
         val panel = JPanel()
         panel.alignmentX = Component.CENTER_ALIGNMENT
         panel.alignmentY = Component.CENTER_ALIGNMENT
@@ -81,17 +78,18 @@ class CliActionsTablePanel(project: Project) : JPanel() {
         panel.add(stripLabel)
         return panel
     }
+
+    private fun loadingMessage(): JComponent {
+        val panel = JPanel()
+        panel.alignmentX = Component.CENTER_ALIGNMENT
+        panel.alignmentY = Component.CENTER_ALIGNMENT
+        val stripLabel = JLabel("Searching for configurations...")
+        panel.add(stripLabel)
+        return panel
+    }
+
     fun dispose() {}
     fun initialise() {
         build()
-    }
-
-    private fun runCommand(name: String, command: String) {
-        val terminalView: TerminalView = TerminalView.getInstance(project)
-        try {
-            terminalView.createLocalShellWidget(project.basePath, name).executeCommand(command)
-        } catch (err: IOException) {
-            err.printStackTrace()
-        }
     }
 }

@@ -1,7 +1,19 @@
 ### CLI Actions *(Intellij Plugin)*
 
 #### How to use:
-Add `*.cliactions.yaml` files to your project root directory with following structure
+* Add `*.cliactions.yaml` files to your project root or/and user home directory
+* You may create multiple configs. Configs from user home will be shared across all project/IDEs
+* You may force developer to install this plugin when project will be opened
+
+* `.idea/externalDependencies.xml`
+```xml
+<?xml version="1.0" encoding="UTF-8" ?>
+<project version="4">
+    <component name="ExternalDependencies">
+        <plugin id="io.github.vacxe.cliactions" />
+    </component>
+</project>
+```
 
 ##### Sample config file:
 
@@ -26,7 +38,7 @@ groups:
         prompt: true
 ```
 
-##### Plugin output:
+##### Plugin Tab:
 
 ![sample.png](docs%2Fimages%2Fimg.png)
 
