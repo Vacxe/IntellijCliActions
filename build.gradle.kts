@@ -8,7 +8,7 @@ plugins {
 }
 
 group = "io.github.vacxe"
-version = "1.0.1"
+version = "1.0.2"
 
 repositories {
     mavenCentral()
@@ -32,6 +32,9 @@ tasks {
     patchPluginXml {
         sinceBuild.set("222")
         untilBuild.set("")
+        changeNotes.set("""
+            Configurations search optimisation for large projects. `*.cliactions.yaml` will be searched 1 level depth from root.
+        """)
     }
 
     signPlugin {
@@ -47,4 +50,5 @@ tasks {
 
 dependencies {
     implementation("com.charleskorn.kaml:kaml:0.54.0")
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.7.3")
 }
