@@ -10,12 +10,30 @@ import io.github.vacxe.cliactions.ui.toolwindow.ToolWindowState
 import java.awt.BorderLayout
 import java.awt.Component
 import java.awt.Dimension
+import java.io.File
 import javax.swing.*
 
 class CliActionsTablePanel(
-    private val configurationFinder: ConfigurationProvider,
-    private val runTerminalCommand: (String, String) -> Unit
+    private val configurationFinder: ConfigurationProvider, private val runTerminalCommand: (String, String) -> Unit
 ) : JPanel() {
+
+    private val configsUpdate: (Sequence<File>) -> Unit = { configFiles ->
+        if (configFiles.toList().isNotEmpty()) {
+            try {
+                val groups = configFiles.map { file ->
+                    Yaml.default.decodeFromString(
+                        Config.serializer(), file.readText()
+                    ).groups
+                }.flatten().toList()
+                updateState(ToolWindowState.Content(groups))
+            } catch (e: com.charleskorn.kaml.UnknownPropertyException) {
+                updateState(ToolWindowState.Error("Unable to parse configuration ${e.message}"))
+            }
+        } else {
+            updateState(ToolWindowState.Error("Can't find any config files. Please define `<name>.cliactions.yaml` in the project root directory"))
+        }
+    }
+
     private fun updateState(viewState: ToolWindowState) {
         removeAll()
         when (viewState) {
@@ -58,8 +76,7 @@ class CliActionsTablePanel(
         button.addActionListener {
             if (iCmdCommand.prompt) {
                 if (JOptionPane.showConfirmDialog(
-                        null,
-                        "Run: ${iCmdCommand.name} ?", "Confirm Action", JOptionPane.YES_NO_OPTION
+                        null, "Run: ${iCmdCommand.name} ?", "Confirm Action", JOptionPane.YES_NO_OPTION
                     ) == 0
                 ) {
                     runTerminalCommand.invoke(iCmdCommand.name, iCmdCommand.command)
@@ -84,26 +101,11 @@ class CliActionsTablePanel(
         return panel
     }
 
-    fun dispose() {}
-    fun initialise() {
-        updateConfigurations()
+    fun dispose() {
+        configurationFinder.unsubscribe()
     }
-
-    private fun updateConfigurations() {
+    fun initialise() {
         updateState(ToolWindowState.Loading("Searching for configurations..."))
-        configurationFinder.find { configFiles ->
-            if (configFiles.toList().isNotEmpty()) {
-                val groups = configFiles.map { file ->
-                    Yaml.default.decodeFromString(
-                        Config.serializer(),
-                        file.readText()
-                    ).groups
-                }.flatten()
-                    .toList()
-                updateState(ToolWindowState.Content(groups))
-            } else {
-                updateState(ToolWindowState.Error("Can't find any config files. Please define `<name>.cliactions.yaml` in the project root directory"))
-            }
-        }
+        configurationFinder.subscribe(configsUpdate)
     }
 }
