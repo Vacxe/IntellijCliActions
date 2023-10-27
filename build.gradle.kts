@@ -8,7 +8,7 @@ plugins {
 }
 
 group = "io.github.vacxe"
-version = "1.0.2"
+version = "1.0.3"
 
 repositories {
     mavenCentral()
@@ -33,7 +33,7 @@ tasks {
         sinceBuild.set("222")
         untilBuild.set("")
         changeNotes.set("""
-            Configurations search optimisation for large projects. `*.cliactions.yaml` will be searched 1 level depth from root.
+            Added autorefresh for configurations on case of yaml change. No more IDE restart for update! Yay!
         """)
     }
 
