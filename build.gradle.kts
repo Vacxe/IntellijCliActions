@@ -1,10 +1,9 @@
-import org.jetbrains.kotlin.ir.backend.js.compile
-
 plugins {
-    id("java")
-    id("org.jetbrains.kotlin.jvm") version "1.7.20"
+    java
+    kotlin("jvm")
     id("org.jetbrains.intellij") version "1.12.0"
     id("org.jetbrains.kotlin.plugin.serialization") version "1.4.20"
+    id("org.jetbrains.compose")
 }
 
 group = "io.github.vacxe"
@@ -12,6 +11,7 @@ version = "1.0.1"
 
 repositories {
     mavenCentral()
+    maven { url = uri("https://maven.pkg.jetbrains.space/public/p/compose/dev") }
 }
 
 intellij {
@@ -46,5 +46,6 @@ tasks {
 }
 
 dependencies {
+    implementation(compose.desktop.currentOs)
     implementation("com.charleskorn.kaml:kaml:0.54.0")
 }

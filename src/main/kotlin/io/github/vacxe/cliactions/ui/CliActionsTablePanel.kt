@@ -1,5 +1,17 @@
 package io.github.vacxe.cliactions.ui
 
+import androidx.compose.desktop.ui.tooling.preview.Preview
+import androidx.compose.foundation.layout.*
+import androidx.compose.material.Button
+import androidx.compose.material.Icon
+import androidx.compose.material.Surface
+import androidx.compose.material.Text
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.FavoriteBorder
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.awt.ComposePanel
+import androidx.compose.ui.unit.dp
 import com.charleskorn.kaml.Yaml
 import com.intellij.icons.AllIcons
 import com.intellij.ui.components.JBTabbedPane

@@ -9,7 +9,6 @@ import kotlin.concurrent.thread
 class CliActionsConfigurationProvider(private val project: Project) : ConfigurationProvider{
     override fun find(result: (Sequence<File>) -> Unit) {
         thread(start = true) {
-            sleep(10000)
             val projectConfigs = File(project.basePath ?: throw Exception("Project basePath cannot be found"))
                 .walk()
                 .filter { it.name.endsWith(ConfigurationFileExtension) }
