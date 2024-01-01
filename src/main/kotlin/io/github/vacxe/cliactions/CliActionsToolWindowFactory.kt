@@ -4,25 +4,50 @@ import com.intellij.openapi.project.DumbAware
 import com.intellij.openapi.project.Project
 import com.intellij.openapi.wm.ToolWindow
 import com.intellij.openapi.wm.ToolWindowFactory
-import com.intellij.ui.content.Content
-import com.intellij.ui.content.ContentFactory
 import io.github.vacxe.cliactions.configurations.CliActionsConfigurationProvider
 import io.github.vacxe.cliactions.terminal.IntellijIDETerminal
-import io.github.vacxe.cliactions.ui.CliActionsTablePanel
+import io.github.vacxe.cliactions.ui.CliActionsTablePanelCompose
+import org.jetbrains.jewel.bridge.JewelComposePanel
+import org.jetbrains.jewel.bridge.ToolWindowScope
+import org.jetbrains.jewel.bridge.addComposeTab
+import org.jetbrains.jewel.bridge.theme.SwingBridgeTheme
+import org.jetbrains.jewel.foundation.enableNewSwingCompositing
 
 class CliActionsToolWindowFactory : DumbAware, ToolWindowFactory {
     override fun createToolWindowContent(project: Project, toolWindow: ToolWindow) {
         val terminalProvider = IntellijIDETerminal(project)
         val configurationFinder = CliActionsConfigurationProvider(project)
+        enableNewSwingCompositing()
 
-        val cmdPanel = CliActionsTablePanel(
-            configurationFinder = configurationFinder,
-            runTerminalCommand = { name, command -> terminalProvider.run(name, command) }
+        val tabContent = toolWindow.contentManager.factory.createContent(
+            /* component = */
+            JewelComposePanel {
+                CliActionsTablePanelCompose(
+                    configurationFinder = configurationFinder,
+                    runTerminalCommand = { name, command -> terminalProvider.run(name, command) }
+                )
+            },
+            /* displayName = */ null,
+            /* isLockable = */ false,
         )
-        val content: Content = ContentFactory.getInstance().createContent(cmdPanel, null, true)
-        content.setDisposer(cmdPanel::dispose)
-        content.preferredFocusableComponent = cmdPanel
-        toolWindow.contentManager.addContent(content)
-        cmdPanel.initialise()
+        tabContent.isCloseable = false
+        toolWindow.contentManager.addContent(tabContent)
+//        toolWindow.addComposeTab("test") {
+//            SwingBridgeTheme {
+//                CliActionsTablePanelCompose(
+//                    configurationFinder = configurationFinder,
+//                    runTerminalCommand = { name, command -> terminalProvider.run(name, command) }
+//                )
+//            }
+//        }
+//        val cmdPanel = CliActionsTablePanel(
+//            configurationFinder = configurationFinder,
+//            runTerminalCommand = { name, command -> terminalProvider.run(name, command) }
+//        )
+//        val content: Content = ContentFactory.getInstance().createContent(cmdPanel, null, true)
+//        content.setDisposer(cmdPanel::dispose)
+//        content.preferredFocusableComponent = cmdPanel
+//        toolWindow.contentManager.addContent(content)
+//        cmdPanel.initialise()
     }
 }
