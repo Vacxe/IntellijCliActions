@@ -17,7 +17,7 @@ repositories {
 }
 
 intellij {
-    version.set("2023.2.1")
+    version.set("2023.3.1")
     pluginName.set("CLI Actions")
     plugins.set(listOf("org.jetbrains.plugins.terminal"))
 }
@@ -32,11 +32,11 @@ tasks {
     }
 
     patchPluginXml {
-        sinceBuild.set("232")
+        sinceBuild.set("233")
         untilBuild.set("")
         changeNotes.set(
             """
-            Added autorefresh for configurations on case of yaml change. No more IDE restart for update! Yay!
+            Write UI with Compose, just for kicks.
         """
         )
     }
@@ -54,7 +54,7 @@ tasks {
 
 dependencies {
     implementation("com.charleskorn.kaml:kaml:0.54.0")
-    implementation("org.jetbrains.jewel:jewel-ide-laf-bridge:0.12.0-ij-232") {
+    implementation("org.jetbrains.jewel:jewel-ide-laf-bridge:0.12.0-ij-233") {
         exclude(group = "org.jetbrains.kotlinx")
     }
     implementation(compose.desktop.currentOs) {

@@ -8,9 +8,6 @@ import io.github.vacxe.cliactions.configurations.CliActionsConfigurationProvider
 import io.github.vacxe.cliactions.terminal.IntellijIDETerminal
 import io.github.vacxe.cliactions.ui.CliActionsTablePanelCompose
 import org.jetbrains.jewel.bridge.JewelComposePanel
-import org.jetbrains.jewel.bridge.ToolWindowScope
-import org.jetbrains.jewel.bridge.addComposeTab
-import org.jetbrains.jewel.bridge.theme.SwingBridgeTheme
 import org.jetbrains.jewel.foundation.enableNewSwingCompositing
 
 class CliActionsToolWindowFactory : DumbAware, ToolWindowFactory {
@@ -32,22 +29,5 @@ class CliActionsToolWindowFactory : DumbAware, ToolWindowFactory {
         )
         tabContent.isCloseable = false
         toolWindow.contentManager.addContent(tabContent)
-//        toolWindow.addComposeTab("test") {
-//            SwingBridgeTheme {
-//                CliActionsTablePanelCompose(
-//                    configurationFinder = configurationFinder,
-//                    runTerminalCommand = { name, command -> terminalProvider.run(name, command) }
-//                )
-//            }
-//        }
-//        val cmdPanel = CliActionsTablePanel(
-//            configurationFinder = configurationFinder,
-//            runTerminalCommand = { name, command -> terminalProvider.run(name, command) }
-//        )
-//        val content: Content = ContentFactory.getInstance().createContent(cmdPanel, null, true)
-//        content.setDisposer(cmdPanel::dispose)
-//        content.preferredFocusableComponent = cmdPanel
-//        toolWindow.contentManager.addContent(content)
-//        cmdPanel.initialise()
     }
 }

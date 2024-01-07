@@ -1,16 +1,18 @@
 package io.github.vacxe.cliactions.ui
 
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.IntrinsicSize
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.requiredWidth
 import androidx.compose.foundation.layout.width
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.remember
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -25,12 +27,11 @@ import org.jetbrains.jewel.ui.Orientation
 import org.jetbrains.jewel.ui.component.Divider
 import org.jetbrains.jewel.ui.component.Icon
 import org.jetbrains.jewel.ui.component.OutlinedButton
-import org.jetbrains.jewel.ui.component.SimpleTabContent
 import org.jetbrains.jewel.ui.component.TabData
 import org.jetbrains.jewel.ui.component.TabStrip
 import org.jetbrains.jewel.ui.component.Text
 import java.io.File
-import javax.swing.*
+import javax.swing.JOptionPane
 
 @Composable
 fun CliActionsTablePanelCompose(
@@ -101,12 +102,7 @@ private fun Tabs(
         viewState.groups.mapIndexed { index, group ->
             TabData.Default(
                 selected = index == selectedTabIndex,
-                content = { tabState ->
-                    SimpleTabContent(
-                        label = group.name,
-                        state = tabState
-                    )
-                },
+                label = group.name,
                 closable = false,
                 onClick = { selectedTabIndex = index },
             )
@@ -117,7 +113,7 @@ private fun Tabs(
     ) {
         TabStrip(tabs)
         viewState.groups[selectedTabIndex].commands.forEach { command ->
-            Column() {
+            Column {
                 CmdShortcutItem(command, runTerminalCommand)
                 Divider(Orientation.Horizontal)
             }
@@ -127,15 +123,16 @@ private fun Tabs(
 
 @Composable
 fun CmdShortcutItem(iCmdCommand: Command, runTerminalCommand: (String, String) -> Unit) {
-    Row(Modifier.fillMaxWidth().padding(8.dp), verticalAlignment = Alignment.CenterVertically) {
-        OutlinedButton(onClick = {
-            runCommand(iCmdCommand, runTerminalCommand)
-        }) {
+    Row(Modifier.fillMaxWidth().padding(12.dp), verticalAlignment = Alignment.CenterVertically) {
+        OutlinedButton(
+            onClick = { runCommand(iCmdCommand, runTerminalCommand) },
+            Modifier.requiredWidth(IntrinsicSize.Min)
+        ) {
             Icon("actions/execute_stroke.svg", null, AllIcons::class.java, Modifier.padding(end = 8.dp))
             Text("Run")
         }
-        Spacer(Modifier.width(8.dp))
-        Text(iCmdCommand.name)
+        Spacer(Modifier.width(12.dp))
+        Text(iCmdCommand.name, maxLines = 3)
     }
 }
 
@@ -154,5 +151,5 @@ private fun runCommand(iCmdCommand: Command, runTerminalCommand: (String, String
 
 @Composable
 fun InformationView(message: String) {
-    Text(message, Modifier.padding(8.dp))
+    Text(message, Modifier.padding(12.dp))
 }
