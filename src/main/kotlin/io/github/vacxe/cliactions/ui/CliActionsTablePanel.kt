@@ -10,6 +10,7 @@ import io.github.vacxe.cliactions.ui.toolwindow.ToolWindowState
 import java.awt.BorderLayout
 import java.awt.Component
 import java.awt.Dimension
+import java.awt.Scrollbar
 import java.io.File
 import javax.swing.*
 
@@ -44,6 +45,7 @@ class CliActionsTablePanel(
 
                 viewState.groups.forEach { group ->
                     val commandsLayout = JPanel()
+                    val scrollPane = JScrollPane(commandsLayout)
                     commandsLayout.border = BorderFactory.createEmptyBorder(5, 5, 5, 5)
                     commandsLayout.layout = BoxLayout(commandsLayout, BoxLayout.Y_AXIS)
                     group.commands.forEach { command ->
@@ -52,7 +54,7 @@ class CliActionsTablePanel(
                             maximumSize = Dimension(this.maximumSize.width, 5)
                         })
                     }
-                    jbTabbedPane.add(group.name, commandsLayout)
+                    jbTabbedPane.add(group.name, scrollPane)
                 }
                 add(jbTabbedPane)
             }
