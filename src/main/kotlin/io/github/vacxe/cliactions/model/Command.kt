@@ -6,5 +6,6 @@ import kotlinx.serialization.Serializable
 data class Command(
     val name: String,
     val command: String,
-    val prompt: Boolean = false
+    val prompt: Boolean = false,
+    val forceNewTab: Boolean = false
 )
