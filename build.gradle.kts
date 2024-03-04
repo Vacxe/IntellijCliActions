@@ -8,14 +8,14 @@ plugins {
 }
 
 group = "io.github.vacxe"
-version = "1.0.5"
+version = "1.0.6"
 
 repositories {
     mavenCentral()
 }
 
 intellij {
-    version.set("2022.2.1")
+    version.set("2023.2.2")
     pluginName.set("CLI Actions")
     plugins.set(listOf("org.jetbrains.plugins.terminal"))
 }
@@ -30,10 +30,10 @@ tasks {
     }
 
     patchPluginXml {
-        sinceBuild.set("222")
+        sinceBuild.set("232")
         untilBuild.set("")
         changeNotes.set("""
-            Added autorefresh for configurations on case of yaml change. No more IDE restart for update! Yay!
+            Migrate from deprecated Terminal View. Tab names support and reuse tabs.
         """)
     }
 

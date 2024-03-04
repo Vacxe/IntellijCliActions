@@ -15,7 +15,7 @@ import java.io.File
 import javax.swing.*
 
 class CliActionsTablePanel(
-    private val configurationFinder: ConfigurationProvider, private val runTerminalCommand: (String, String) -> Unit
+    private val configurationFinder: ConfigurationProvider, private val runTerminalCommand: (String, String, Boolean) -> Unit
 ) : JPanel() {
 
     private val configsUpdate: (Sequence<File>) -> Unit = { configFiles ->
@@ -80,10 +80,18 @@ class CliActionsTablePanel(
                         null, "Run: ${iCmdCommand.name} ?", "Confirm Action", JOptionPane.YES_NO_OPTION
                     ) == 0
                 ) {
-                    runTerminalCommand.invoke(iCmdCommand.name, iCmdCommand.command)
+                    runTerminalCommand.invoke(
+                        iCmdCommand.name,
+                        iCmdCommand.command,
+                        iCmdCommand.forceNewTab
+                    )
                 }
             } else {
-                runTerminalCommand.invoke(iCmdCommand.name, iCmdCommand.command)
+                runTerminalCommand.invoke(
+                    iCmdCommand.name,
+                    iCmdCommand.command,
+                    iCmdCommand.forceNewTab
+                )
             }
         }
         panel.add(button)

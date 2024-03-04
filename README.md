@@ -53,7 +53,8 @@ groups:
     commands:
       - name: Command Name
         command: your-terminal-command
-        prompt: true/false
+        prompt: true/false (default false)
+        forceNewTab: true/false (default false)
 ```
 
 ## Troubleshooting

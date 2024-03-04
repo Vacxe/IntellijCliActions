@@ -17,7 +17,7 @@ class CliActionsToolWindowFactory : DumbAware, ToolWindowFactory {
 
         val cmdPanel = CliActionsTablePanel(
             configurationFinder = configurationFinder,
-            runTerminalCommand = { name, command -> terminalProvider.run(name, command) }
+            runTerminalCommand = { name, command, forceNewTab -> terminalProvider.run(name, command, forceNewTab) }
         )
         val content: Content = ContentFactory.getInstance().createContent(cmdPanel, null, true)
         content.setDisposer(cmdPanel::dispose)
